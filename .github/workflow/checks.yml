@@ -1,7 +1,10 @@
 ---
 name:Checks
 
-on: [push]
+on: 
+  push:
+    branches: main
+
 
 jobs:
   test-lint:
@@ -9,7 +12,7 @@ jobs:
     runs-on:  ubuntu-20.04
     steps:
       - name: Login to docker hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username:${{secrets.DOCKERHUB_USER}}
           password:${{secrets.DOCKERHUB_TOKEN}}
@@ -19,4 +22,5 @@ jobs:
         run:  docker-compose run --rm sh -c "python manage.py test"
       - name: Lint
         run:  docker-compose run --rm sh -c "flake8"
+
 
